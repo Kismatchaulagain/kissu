@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffd6e8, #fff0f5);
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.card {
+  background: #fff;
+  padding: 28px 22px;
+  border-radius: 24px;
+  text-align: center;
+  width: 92%;
+  max-width: 360px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+  animation: popIn 0.6s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+h1 {
+  color: #e60073;
+  margin-bottom: 6px;
+  font-size: 1.9rem;
+}
+
+#statusText {
+  min-height: 24px;
+  color: #ff6fa5;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+img {
+  width: 190px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  height: 60px;
+}
+
+button {
+  padding: 12px 26px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#yesBtn {
+  background: linear-gradient(135deg, #ff4d88, #ff2f92);
+  color: white;
+  box-shadow: 0 6px 15px rgba(255,77,136,0.4);
+}
+
+#noBtn {
+  background: #ddd;
+  color: #555;
+  position: relative;
+}
+
+#success {
+  display: none;
+  font-size: 22px;
+  color: #ff2f92;
+  margin-top: 20px;
+}
+
+.footer {
+  margin-top: 22px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Hearts */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 20px;
+  animation: rise 4s linear forwards;
+}
+
+@keyframes rise {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Do you love me? 💕</h1>
+  <div id="statusText">No pressure at all 😊</div>
+
+  <img src="https://i.imgur.com/6XKJ0Qy.png" alt="Teddy Bear">
+
+  <div class="buttons" id="btnArea">
+    <button id="yesBtn">❤️ Yes</button>
+    <button id="noBtn">💔 No</button>
+  </div>
+
+  <div id="success">
+    Yay! I knew it 💖<br>
+    Happy Valentine’s Day!
+  </div>
+
+  <div class="footer">
+    Made with 💖 by Kismat
+  </div>
+</div>
+
+<script>
+let noScale = 1;
+let yesScale = 1;
+let msgIndex = 0;
+
+const messages = [
+  "That's okay 💗",
+  "I respect your choice 🤍",
+  "Still smiling 😊",
+  "No worries at all 🌸",
+  "Take your time 💕"
+];
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const statusText = document.getElementById("statusText");
+const success = document.getElementById("success");
+const btnArea = document.getElementById("btnArea");
+
+// Move No button (desktop hover + mobile touch)
+function moveNoButton() {
+  const x = Math.random() * 120 - 60;
+  const y = Math.random() * 60 - 30;
+  noBtn.style.transform = `translate(${x}px, ${y}px) scale(${noScale})`;
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+// Shrink No + grow Yes
+noBtn.addEventListener("click", () => {
+  noScale -= 0.1;
+  yesScale += 0.07;
+  if (noScale < 0.35) noScale = 0.35;
+
+  noBtn.style.transform += ` scale(${noScale})`;
+  yesBtn.style.transform = `scale(${yesScale})`;
+
+  statusText.textContent = messages[msgIndex];
+  msgIndex = (msgIndex + 1) % messages.length;
+});
+
+// Yes click
+yesBtn.onclick = () => {
+  btnArea.style.display = "none";
+  statusText.style.display = "none";
+  success.style.display = "block";
+  createHearts();
+};
+
+function createHearts() {
+  for (let i = 0; i < 20; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }
+}
+</script>
+
+</body>
+</html>
